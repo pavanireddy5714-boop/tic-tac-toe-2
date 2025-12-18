@@ -1,76 +1,48 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Tic Tac Toe</title>
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
+      font-family: Arial;
+      background: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .game {
-      background: #ffffff;
-      padding: 20px 30px 30px;
+      background: white;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       text-align: center;
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    .status {
-      margin: 10px 0 15px;
-      font-size: 18px;
-      font-weight: bold;
     }
     .board {
       display: grid;
       grid-template-columns: repeat(3, 100px);
-      grid-template-rows: repeat(3, 100px);
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 15px;
+      gap: 10px;
+      margin: 15px 0;
     }
     .cell {
-      background: #e9ecef;
-      border-radius: 8px;
+      width: 100px;
+      height: 100px;
+      background: #ddd;
       font-size: 40px;
-      font-weight: bold;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .cell:hover {
-      background: #dee2e6;
-    }
-    .cell.disabled {
-      cursor: not-allowed;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background: #007bff;
-      color: #ffffff;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
     }
   </style>
 </head>
+
 <body>
   <div class="game">
-    <h1>Tic Tac Toe</h1>
-    <div class="status" id="status">Player X's turn</div>
-    <div class="board" id="board">
+    <h2>Tic Tac Toe</h2>
+    <div id="status">Player X's turn</div>
+
+    <div class="board">
       <div class="cell" data-index="0"></div>
       <div class="cell" data-index="1"></div>
       <div class="cell" data-index="2"></div>
@@ -81,24 +53,43 @@
       <div class="cell" data-index="7"></div>
       <div class="cell" data-index="8"></div>
     </div>
-    <button onclick="resetGame()">Restart Game</button>
-  </div>  <script>
-    const cells = document.querySelectorAll('.cell');
-    const statusText = document.getElementById('status');
 
-    let board = ['', '', '', '', '', '', '', '', ''];
-    let currentPlayer = 'X';
+    <button onclick="resetGame()">Restart</button>
+  </div>
+
+  <script>
+    const cells = document.querySelectorAll(".cell");
+    const statusText = document.getElementById("status");
+
+    let board = ["","","","","","","","",""];
+    let currentPlayer = "X";
     let isGameActive = true;
 
-    const winningCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ];
+    function handleCellClick(e) {
+      const index = e.target.dataset.index;
 
-    function handleCellClick(e)
+      if (board[index] !== "" || !isGameActive) return;
+
+      board[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      statusText.textContent = "Player " + currentPlayer + "'s turn";
+    }
+
+    function resetGame() {
+      board = ["","","","","","","","",""];
+      currentPlayer = "X";
+      isGameActive = true;
+      statusText.textContent = "Player X's turn";
+      cells.forEach(cell => cell.textContent = "");
+    }
+
+    cells.forEach(cell => {
+      cell.addEventListener("click", handleCellClick);
+    });
+  </script>
+</body>
+</html>
+
+      
